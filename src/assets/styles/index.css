@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+body {
+  @apply transition-colors duration-300;
+}
+
+/* 针对暗色模式的滚动条优化 */
+.dark ::-webkit-scrollbar {
+  width: 6px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+@theme {
+  --animate-random-float: random-float 20s infinite alternate-reverse;
+}
+
+@keyframes random-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(var(--x1, 40vw), var(--y1, 20vh)) scale(1.2);
+  }
+  66% {
+    transform: translate(var(--x2, -20vw), var(--y2, 50vh)) scale(0.8);
+  }
+  100% {
+    transform: translate(var(--x3, 10vw), var(--y3, -10vh)) scale(1.1);
+  }
+}
