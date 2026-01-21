@@ -11,8 +11,9 @@ export function ThemeSwitcher() {
         onChange={toggleTheme}
         defaultChecked={isDarkMode}
         checked={isDarkMode}
-        unCheckedChildren={<SunOutlined className="text-yellow-400" />}
-        checkedChildren={<MoonOutlined className="text-violet-600" />}
+        styles={{ root: { backgroundColor: '#7f22fe' } }}
+        unCheckedChildren={<SunOutlined />}
+        checkedChildren={<MoonOutlined />}
       />
     </Tooltip>
   )
