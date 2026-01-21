@@ -4,7 +4,6 @@ import { Tooltip, Switch } from 'antd'
 
 export function ThemeSwitcher() {
   const { isDarkMode, toggleTheme } = useThemeStore()
-
   return (
     <Tooltip title="切换模式">
       <Switch
