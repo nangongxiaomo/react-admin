@@ -1,42 +1,45 @@
 import { createAlova } from 'alova'
-import adapterFetch from 'alova/fetch'
 import reactHook from 'alova/react'
-
+import { axiosRequestAdapter } from '@alova/adapter-axios'
+import { antdUtils } from '../utils/AntdGlobal'
 import { HTTP_CODE } from '../constants'
-import { useAuthStore } from '../stores/user'
+import { useUserStore } from '../stores/user'
 
+export type Response<T> = {
+  code: number
+  msg: string
+  data: T
+}
 const TIMEOUT = 10000
 
 export const alova = createAlova({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   statesHook: reactHook,
   timeout: TIMEOUT,
+  cacheFor: null,
   cacheLogger: import.meta.env.DEV,
-  requestAdapter: adapterFetch(),
+  requestAdapter: axiosRequestAdapter(),
   async beforeRequest(method) {
     if (!method.meta?.auth) {
       return
     }
-    method.config.headers['token'] = useAuthStore.getState()?.user?.token ?? ''
+    method.config.headers['token'] = useUserStore.getState()?.user?.token ?? ''
   },
   responded: {
-    onSuccess: async (response, method) => {
+    onSuccess: async response => {
       if (response.status !== HTTP_CODE.ERR_OK) {
-        console.log(`接口请求失败:${method.url}`)
         return Promise.reject(response.statusText)
       }
-      const json = await response.json()
 
-      if (json.code !== HTTP_CODE.ERR_OK) {
-        console.log(`接口内容异常:${method.url}`)
-        return Promise.reject(json.msg)
+      if (response.data.code !== HTTP_CODE.ERR_OK) {
+        return Promise.reject(response.data.msg)
       }
 
-      return json.data
+      return response.data.data
     },
     onError: error => {
       const err = error.toString()
-      const msg = err.includes(HTTP_CODE.ERR_TIMEOUT) ? HTTP_CODE.ERR_TIMEOUT : err
+      const msg = err.includes(HTTP_CODE.ERR_TIMEOUT) ? antdUtils.message?.error('网络超时, 请稍后重试') : err
       return Promise.reject(msg)
     }
   }

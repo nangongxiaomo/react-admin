@@ -16,14 +16,14 @@ export const transformMenuToRoutes = (menuList: MenuItem[] | null): RouteObject[
     if (!importFn) {
       console.warn(`未找到匹配组件: ${componentPath}，请检查文件名是否严格一致。`)
       return {
-        path: item.url.replace(/^\//, ''),
+        path: item.url,
         element: <div>页面组件 {item.component} 开发中...</div>
       }
     }
 
     return {
       index: item.url === '/',
-      path: item.url.replace(/^\//, ''),
+      path: item.url,
       lazy: async () => {
         const module = (await importFn()) as { default: React.ComponentType<Record<string, unknown>> }
         return { Component: module.default }
@@ -33,7 +33,6 @@ export const transformMenuToRoutes = (menuList: MenuItem[] | null): RouteObject[
 }
 
 /**
- * 基础静态路由结构
  * @param dynamicChildren 动态生成的子路由
  */
 export const getRouterConfig = (dynamicChildren: RouteObject[] = []): RouteObject[] => [

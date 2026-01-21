@@ -3,36 +3,33 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { blobs } from './animateData'
 import { useNavigate } from 'react-router'
-import { useAuthStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { useShallow } from 'zustand/react/shallow'
 import { login } from '@/http/methods/user'
-import { message } from 'antd'
 
 const loginSchema = z.object({
-  email: z.email('请输入有效的电子邮箱地址'), // Zod 自带强大的邮箱格式校验
-  password: z.string().min(6, '密码长度至少为 6 位').max(20, '密码长度最多 20 位')
+  email: z.email('请输入有效的电子邮箱地址'),
+  password: z.string().min(6, '密码长度至少为 6 位')
 })
-type LoginFormValues = z.infer<typeof loginSchema>
+type LoginFormValuesType = z.infer<typeof loginSchema>
 
 export default function Login() {
-  const [messageApi] = message.useMessage()
   const navigate = useNavigate()
-  const loginDispatch = useAuthStore(useShallow(state => state.login))
+  const loginDispatch = useUserStore(useShallow(state => state.login))
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting }
-  } = useForm<LoginFormValues>({
+  } = useForm<LoginFormValuesType>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' }
   })
-  const onSubmit = async ({ email, password }: LoginFormValues) => {
+  const onSubmit = async ({ email, password }: LoginFormValuesType) => {
     try {
-      const res = await login({ email, password })
-      loginDispatch(res)
+      const user = await login({ email, password })
+      loginDispatch(user)
       navigate('/')
     } catch (error) {
-      messageApi.error('登录失败')
       console.log(error)
     }
   }

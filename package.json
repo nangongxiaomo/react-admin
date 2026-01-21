@@ -10,11 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@alova/adapter-axios": "^2.0.17",
     "@ant-design/icons": "^6.1.0",
     "@hookform/resolvers": "^5.2.2",
     "@tailwindcss/vite": "^4.1.18",
-    "alova": "^3.4.1",
+    "alova": "^3.5.0",
     "antd": "^6.2.0",
+    "axios": "^1.13.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.1",

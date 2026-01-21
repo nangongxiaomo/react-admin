@@ -8,7 +8,7 @@ interface AuthState {
   login: (user: User) => void
   logout: () => void
 }
-export const useAuthStore = create<AuthState>()(
+export const useUserStore = create<AuthState>()(
   devtools(
     persist(
       set => ({

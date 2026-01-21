@@ -1,10 +1,11 @@
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { transformMenuToRoutes, getRouterConfig } from '@/router'
-import { useAuthStore } from './stores/user'
+import { useUserStore } from './stores/user'
 import { useShallow } from 'zustand/react/shallow'
+import { AntdStaticSetter } from './utils/AntdGlobal'
 
 export default function App() {
-  const user = useAuthStore(useShallow(state => state.user))
+  const user = useUserStore(useShallow(state => state.user))
 
   const router = () => {
     const dynamicRoutes = transformMenuToRoutes(user?.menuList || [])
@@ -12,5 +13,10 @@ export default function App() {
     return createBrowserRouter(fullConfig)
   }
 
-  return <RouterProvider router={router()} />
+  return (
+    <>
+      <AntdStaticSetter />
+      <RouterProvider router={router()} />
+    </>
+  )
 }

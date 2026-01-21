@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import * as Icons from '@ant-design/icons'
 import { Menu, Layout, theme } from 'antd'
 import React from 'react'
@@ -13,7 +13,7 @@ const iconMap = (iconName: string) => {
 export default function Sidebar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { menuList } = useAuthStore(useShallow(state => ({ menuList: state.user?.menuList })))
+  const { menuList } = useUserStore(useShallow(state => ({ menuList: state.user?.menuList })))
   const { token } = theme.useToken()
 
   const menuItems =
@@ -33,16 +33,11 @@ export default function Sidebar() {
 
   return (
     <Layout.Sider trigger={null} collapsible width={240} className="shadow-md" style={{ background: token.colorBgContainer }}>
-      <div className="text-xl font-black py-6 text-center tracking-tighter text-zinc-900 dark:text-white">
+      <div className="text-xl font-black py-6 text-center tracking-tighter" style={{ color: token.colorTextBase }}>
         LOGO
         <span className="text-indigo-500">.</span>
       </div>
-      <Menu
-        mode="inline"
-        selectedKeys={[location.pathname]}
-        items={menuItems}
-        onClick={({ key }) => navigate(key)}
-      />
+      <Menu mode="inline" selectedKeys={[location.pathname]} items={menuItems} onClick={({ key }) => navigate(key)} />
     </Layout.Sider>
   )
 }

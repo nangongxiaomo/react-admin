@@ -3,7 +3,6 @@ import { useThemeStore } from '@/stores/theme'
 import { getAeroTheme } from '@/theme'
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  // 这里使用 hook，当 isDarkMode 改变时，此组件会重新渲染
   const isDarkMode = useThemeStore(state => state.isDarkMode)
 
   return (
@@ -14,7 +13,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         ...getAeroTheme(isDarkMode)
       }}
     >
-      <AntdApp>{children}</AntdApp>
+      <AntdApp message={{ maxCount: 3 }}>{children}</AntdApp>
     </ConfigProvider>
   )
 }
