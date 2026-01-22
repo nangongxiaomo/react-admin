@@ -2,7 +2,7 @@ import { useUserStore } from '@/stores/user'
 import * as Icons from '@ant-design/icons'
 import { Menu, Layout, theme } from 'antd'
 import React from 'react'
-import { useNavigate, useLocation } from 'react-router'
+import { useNavigate, useLocation, Link } from 'react-router'
 import { useShallow } from 'zustand/react/shallow'
 
 const iconMap = (iconName: string) => {
@@ -33,10 +33,13 @@ export default function Sidebar() {
 
   return (
     <Layout.Sider trigger={null} collapsible width={240} className="shadow-md" style={{ background: token.colorBgContainer }}>
-      <div className="text-xl font-black py-6 text-center tracking-tighter" style={{ color: token.colorTextBase }}>
-        LOGO
-        <span className="text-indigo-500">.</span>
-      </div>
+      <Link to="/">
+        <div className="text-xl font-black py-6 text-center tracking-tighter" style={{ color: token.colorTextBase }}>
+          LOGO
+          <span className="text-indigo-500">.</span>
+        </div>
+      </Link>
+
       <Menu mode="inline" selectedKeys={[location.pathname]} items={menuItems} onClick={({ key }) => navigate(key)} />
     </Layout.Sider>
   )

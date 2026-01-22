@@ -9,6 +9,7 @@ export default function NotFound() {
       status="404"
       title="404"
       subTitle="页面已消失在星空了"
+      className="mt-40"
       extra={
         <Button type="primary" onClick={() => navigate(-1)}>
           返回上一页

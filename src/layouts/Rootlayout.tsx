@@ -33,7 +33,7 @@ function Rootlayout() {
       <Layout>
         <Header />
         <Layout.Content className="p-6 overflow-auto">
-          <div className="min-h-full  p-6" style={{ borderRadius: borderRadiusLG, background: colorBgContainer }}>
+          <div className="min-h-full p-6" style={{ borderRadius: borderRadiusLG, background: colorBgContainer }}>
             <Suspense>
               <Outlet />
             </Suspense>

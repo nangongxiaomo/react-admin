@@ -16,7 +16,6 @@ export const alova = createAlova({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   statesHook: reactHook,
   timeout: TIMEOUT,
-  cacheFor: null,
   cacheLogger: import.meta.env.DEV,
   requestAdapter: axiosRequestAdapter(),
   async beforeRequest(method) {
@@ -39,8 +38,10 @@ export const alova = createAlova({
     },
     onError: error => {
       const err = error.toString()
-      const msg = err.includes(HTTP_CODE.ERR_TIMEOUT) ? antdUtils.message?.error('网络超时, 请稍后重试') : err
-      return Promise.reject(msg)
+      if (err.includes(HTTP_CODE.ERR_TIMEOUT)) {
+        antdUtils.message?.error('网络超时, 请稍后重试')
+      }
+      return Promise.reject(err)
     }
   }
 })
